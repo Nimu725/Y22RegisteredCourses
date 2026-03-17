@@ -1,0 +1,109 @@
+{
+  "courseCategories": [
+    {
+      "category": "Humanities, Arts & Sciences (HAS)",
+      "minimumCourses": 8,
+      "minimumCredits": 11
+    },
+    {
+      "category": "Basic Science (BS)",
+      "minimumCourses": 5,
+      "minimumCredits": 15.5
+    },
+    {
+      "category": "Engineering Sciences (ES)",
+      "minimumCourses": 9,
+      "minimumCredits": 27.5
+    },
+    {
+      "category": "Skill Development Core Courses (SDC)",
+      "minimumCourses": 4,
+      "minimumCredits": 8
+    },
+    {
+      "category": "Project Courses (PR)",
+      "minimumCourses": 5,
+      "minimumCredits": 17
+    },
+    {
+      "category": "Professional Elective 1 (PE1)",
+      "minimumCourses": 1,
+      "minimumCredits": 4
+    },
+    {
+      "category": "Professional Elective 2 (PE2)",
+      "minimumCourses": 1,
+      "minimumCredits": 3
+    },
+    {
+      "category": "Professional Elective 3 (PE3)",
+      "minimumCourses": 1,
+      "minimumCredits": 4
+    },
+    {
+      "category": "Professional Elective 4 (PE4)",
+      "minimumCourses": 1,
+      "minimumCredits": 3
+    },
+    {
+      "category": "Professional Elective 5 (PE5)",
+      "minimumCourses": 1,
+      "minimumCredits": 3
+    },
+    {
+      "category": "Flexi Core (FXC)",
+      "minimumCourses": 3,
+      "minimumCredits": 9
+    },
+    {
+      "category": "Physics Elective (PHY)",
+      "minimumCourses": 1,
+      "minimumCredits": 4
+    },
+    {
+      "category": "Chemistry Elective (CHE)",
+      "minimumCourses": 1,
+      "minimumCredits": 4
+    },
+    {
+      "category": "Open Elective 1 (OE1)",
+      "minimumCourses": 1,
+      "minimumCredits": 3
+    },
+    {
+      "category": "Open Elective 2 (OE2)",
+      "minimumCourses": 1,
+      "minimumCredits": 3
+    },
+    {
+      "category": "Open Elective 3 (OE3)",
+      "minimumCourses": 1,
+      "minimumCredits": 3
+    },
+    {
+      "category": "Management Elective (ME)",
+      "minimumCourses": 1,
+      "minimumCredits": 2
+    },
+    {
+      "category": "Audit (AUC)",
+      "minimumCourses": 7,
+      "minimumCredits": 0
+    },
+    {
+      "category": "Foreign Language Elective (FLE)",
+      "minimumCourses": 1,
+      "minimumCredits": 2
+    },
+    {
+      "category": "Value Added Courses (VAC)",
+      "minimumCourses": 4,
+      "minimumCredits": 0
+    },
+    {
+      "category": "Sports",
+      "minimumCourses": 1,
+      "minimumCredits": 0
+    }
+  ]
+}
