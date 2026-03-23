@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* PRINT STYLES */
+/* PRINT FIX */
+
+@media print {
+
+  body {
+    background: white;
+  }
+
+  input, button {
+    display: none !important;
+  }
+
+  /* 🔥 ONE CARD PER ROW (FIX CUT ISSUE) */
+  .grid {
+    display: block !important;
+  }
+
+  .print-card {
+    width: 100% !important;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+
+  /* REMOVE SCROLL */
+  .print-full {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* TABLE FIX */
+  table {
+    width: 100% !important;
+    border-collapse: collapse;
+    table-layout: auto;   /* 🔥 IMPORTANT */
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 4px;
+    font-size: 10px;
+    white-space: normal;  /* 🔥 prevents cutting */
+  }
+
+  th {
+    background: #f2f2f2;
+  }
+
+  /* REMOVE SHADOW */
+  .shadow {
+    box-shadow: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 8mm;
+  }
+
+}

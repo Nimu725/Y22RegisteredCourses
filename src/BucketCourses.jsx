@@ -11,19 +11,16 @@ function BucketCourses() {
 
   useEffect(() => {
 
-    // load registered courses
     fetch("/registeredcourses.json")
       .then(res => res.json())
       .then(data => setCourses(data));
 
-    // load course credits
     fetch("/y22-courses-credits.json")
       .then(res => res.json())
       .then(data => setCredits(data));
 
   }, []);
 
-  // SEARCH FUNCTION
   const handleSearch = () => {
 
     const id = uid.trim();
@@ -35,35 +32,32 @@ function BucketCourses() {
     setFiltered(result);
 
     if (result.length > 0) {
-
       setStudent({
         id: result[0]["University ID"],
         name: result[0]["Name"]
       });
-
     } else {
-
       setStudent(null);
-
     }
 
   };
 
-  // CREDIT LOOKUP MAP
+  // ✅ FIXED CREDIT MAP
   const creditMap = Object.fromEntries(
-    credits.map(c => [c["COURSE CODE"], c.CR])
+    credits.map(c => [
+      String(c["COURSE CODE"]).trim().toUpperCase(),
+      Number(c.CR)
+    ])
   );
 
-  // GROUP BY BUCKET GROUP
+  // GROUPING
   const grouped = {};
 
   filtered.forEach(row => {
 
     const bucket = row["Bucket Group"] || "Others";
 
-    if (!grouped[bucket]) {
-      grouped[bucket] = [];
-    }
+    if (!grouped[bucket]) grouped[bucket] = [];
 
     grouped[bucket].push(row);
 
@@ -71,23 +65,23 @@ function BucketCourses() {
 
   return (
 
-    <div>
-      <div className="flex justify-center items-center h-full">
-        <h1 className="text-4xl font-extrabold text-gray-800">
+    <div className="w-[90%] mx-auto">
+
+      {/* TITLE */}
+      <div className="text-center mb-8">
+
+        <h1 className="text-3xl font-bold">
           Y22 Batch Student Registered Courses
         </h1>
+
+        <p className="text-gray-600">
+          Up to IV Year – II Semester
+        </p>
+
       </div>
 
-
-      {/* SEARCH BOX */}
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSearch();
-        }}
-        className="flex justify-center mb-8"
-      >
+      {/* SEARCH */}
+      <div className="flex justify-center mb-8">
 
         <div className="bg-white shadow p-4 rounded flex gap-3">
 
@@ -97,39 +91,30 @@ function BucketCourses() {
             className="border p-2 rounded w-64"
             value={uid}
             onChange={(e) => setUid(e.target.value)}
+            onKeyDown={(e)=>{ if(e.key==="Enter") handleSearch(); }}
           />
 
           <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            onClick={handleSearch}
+            className="text-white px-4 py-2 rounded"
+            style={{ backgroundColor:"oklch(78.9% 0.154 211.53)" }}
           >
             Search
           </button>
 
         </div>
 
-      </form>
+      </div>
 
-
-      {/* STUDENT DETAILS BOX */}
-
+      {/* STUDENT */}
       {student && (
 
         <div className="flex justify-center mb-8">
 
-          <div className="bg-blue-50 border border-blue-200 shadow rounded p-4 w-96">
+          <div className="bg-gray-100 shadow rounded p-4 w-96 text-center">
 
-            <div className="text-lg font-semibold text-blue-800 mb-2">
-              Student Details
-            </div>
-
-            <div>
-              <span className="font-semibold">University ID:</span> {student.id}
-            </div>
-
-            <div>
-              <span className="font-semibold">Name:</span> {student.name}
-            </div>
+            <p><b>University ID:</b> {student.id}</p>
+            <p><b>Name:</b> {student.name}</p>
 
           </div>
 
@@ -137,52 +122,70 @@ function BucketCourses() {
 
       )}
 
-
-      {/* GRID CARDS */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {Object.keys(grouped).map(bucket => {
 
           const rows = grouped[bucket];
 
-          // REMOVE DUPLICATE COURSES
           const uniqueMap = new Map();
 
           rows.forEach(course => {
-
-            if (!uniqueMap.has(course.CourseCode)) {
-              uniqueMap.set(course.CourseCode, course);
+            const code = course.CourseCode?.trim().toUpperCase();
+            if (!uniqueMap.has(code)) {
+              uniqueMap.set(code, course);
             }
-
           });
 
           const uniqueCourses = Array.from(uniqueMap.values());
 
-          let totalCredits = 0;
+          // ✅ FIXED TOTAL CREDITS
+          const totalCredits = uniqueCourses.reduce((sum, course) => {
+            const code = course.CourseCode?.trim().toUpperCase();
+            return sum + (creditMap[code] || 0);
+          }, 0);
 
           return (
 
-            <div key={bucket} className="bg-white shadow rounded-lg overflow-hidden">
+            <div key={bucket} className="bg-white shadow rounded-lg print-card">
 
-              {/* RIBBON */}
+              {/* HEADER */}
+              <div
+                className="text-white px-4 py-2 font-bold flex justify-between items-center"
+                style={{ backgroundColor:"oklch(78.9% 0.154 211.53)" }}
+              >
 
-              <div className="bg-blue-600 text-white px-4 py-2 font-bold">
-                {bucket}
+                <div>{bucket}</div>
+
+                <div className="text-xs text-right space-y-1">
+
+                  <div className="bg-white/20 px-2 py-1 rounded">
+                    Courses: {uniqueCourses.length}
+                  </div>
+
+                  <div className="bg-white/20 px-2 py-1 rounded">
+                    Credits: {totalCredits}
+                  </div>
+
+                </div>
+
               </div>
 
-              <div className="p-3 overflow-x-auto">
+              {/* TABLE */}
+              <div className="p-3 max-h-[350px] overflow-y-auto print-full">
 
                 <table className="w-full text-sm border">
 
-                  <thead className="bg-gray-200">
+                  <thead className="bg-gray-200 sticky top-0">
 
                     <tr>
                       <th className="border p-2">SNo</th>
-                      <th className="border p-2">CourseCode</th>
-                      <th className="border p-2">CourseDesc</th>
+                      <th className="border p-2">Code</th>
+                      <th className="border p-2">Title</th>
                       <th className="border p-2">CR</th>
-                      <th className="border p-2">Semester</th>
+                      <th className="border p-2">Sem</th>
+                      <th className="border p-2">AcademicYear</th>
                     </tr>
 
                   </thead>
@@ -191,33 +194,19 @@ function BucketCourses() {
 
                     {uniqueCourses.map((course, i) => {
 
-                      const cr = creditMap[course.CourseCode] || 0;
-
-                      totalCredits += cr;
+                      const code = course.CourseCode?.trim().toUpperCase();
+                      const cr = creditMap[code] || 0;
 
                       return (
 
-                        <tr key={i} className="hover:bg-gray-50">
+                        <tr key={i}>
 
-                          <td className="border p-2 text-center">
-                            {i + 1}
-                          </td>
-
-                          <td className="border p-2">
-                            {course.CourseCode}
-                          </td>
-
-                          <td className="border p-2">
-                            {course.CourseDesc}
-                          </td>
-
-                          <td className="border p-2 text-center">
-                            {cr}
-                          </td>
-
-                          <td className="border p-2">
-                            {course.Semester}
-                          </td>
+                          <td className="border p-2 text-center">{i+1}</td>
+                          <td className="border p-2">{code}</td>
+                          <td className="border p-2">{course.CourseDesc}</td>
+                          <td className="border p-2 text-center">{cr}</td>
+                          <td className="border p-2">{course.Semester}</td>
+                          <td className="border p-2">{course.AcademicYear || "-"}</td>
 
                         </tr>
 
@@ -225,22 +214,12 @@ function BucketCourses() {
 
                     })}
 
-                    {/* TOTAL ROW */}
-
                     <tr className="bg-green-100 font-semibold">
 
-                      <td colSpan="2" className="border p-2">
-                        Total Courses
-                      </td>
-
-                      <td className="border p-2 text-center">
-                        {uniqueCourses.length}
-                      </td>
-
-                      <td className="border p-2 text-center">
-                        {totalCredits}
-                      </td>
-
+                      <td colSpan="2">Total</td>
+                      <td>{uniqueCourses.length}</td>
+                      <td>{totalCredits}</td>
+                      <td></td>
                       <td></td>
 
                     </tr>
@@ -258,6 +237,23 @@ function BucketCourses() {
         })}
 
       </div>
+
+      {/* PRINT */}
+      {filtered.length > 0 && (
+
+        <div className="text-center mt-6">
+
+          <button
+            onClick={()=>window.print()}
+            className="text-white px-6 py-3 rounded"
+            style={{ backgroundColor:"oklch(78.9% 0.154 211.53)" }}
+          >
+            Print / Download PDF
+          </button>
+
+        </div>
+
+      )}
 
     </div>
 
