@@ -72,6 +72,12 @@ function BucketCourses() {
   return (
 
     <div>
+      <div className="flex justify-center items-center h-full">
+        <h1 className="text-4xl font-extrabold text-gray-800">
+          Y22 Batch Student Registered Courses
+        </h1>
+      </div>
+
 
       {/* SEARCH BOX */}
 
