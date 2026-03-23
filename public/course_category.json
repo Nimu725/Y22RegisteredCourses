@@ -16,42 +16,42 @@
       "minimumCredits": 27.5
     },
     {
-      "category": "Skill Development Core Courses (SDC)",
+      "category": "SDC",
       "minimumCourses": 4,
       "minimumCredits": 8
     },
     {
-      "category": "Project Courses (PR)",
+      "category": "PRI",
       "minimumCourses": 5,
       "minimumCredits": 17
     },
     {
-      "category": "Professional Elective 1 (PE1)",
+      "category": "PE1",
       "minimumCourses": 1,
       "minimumCredits": 4
     },
     {
-      "category": "Professional Elective 2 (PE2)",
+      "category": "PE2",
       "minimumCourses": 1,
       "minimumCredits": 3
     },
     {
-      "category": "Professional Elective 3 (PE3)",
+      "category": "PE3",
       "minimumCourses": 1,
       "minimumCredits": 4
     },
     {
-      "category": "Professional Elective 4 (PE4)",
+      "category": "PE4",
       "minimumCourses": 1,
       "minimumCredits": 3
     },
     {
-      "category": "Professional Elective 5 (PE5)",
+      "category": "PE5",
       "minimumCourses": 1,
       "minimumCredits": 3
     },
     {
-      "category": "Flexi Core (FXC)",
+      "category": "FC",
       "minimumCourses": 3,
       "minimumCredits": 9
     },
