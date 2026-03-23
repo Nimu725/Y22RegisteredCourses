@@ -4,6 +4,7 @@ function BucketCourses() {
 
   const [courses, setCourses] = useState([]);
   const [credits, setCredits] = useState([]);
+  const [counsellor, setCounsellor] = useState(null);
 
   const [uid, setUid] = useState("");
   const [filtered, setFiltered] = useState([]);
@@ -33,12 +34,27 @@ function BucketCourses() {
     setFiltered(result);
 
     if (result.length > 0) {
-      setStudent({
+
+      const studentData = {
         id: result[0]["University ID"],
         name: result[0]["Name"]
-      });
+      };
+
+      setStudent(studentData);
+
+      // 🔥 Fetch counsellor from JSON
+      fetch("/Students_Counsellors.json")
+        .then(res => res.json())
+        .then(data => {
+          const match = data.find(
+            (item) => item.universityId === String(studentData.id)
+          );
+          setCounsellor(match || null);
+        });
+
     } else {
       setStudent(null);
+      setCounsellor(null);
     }
 
   };
@@ -149,9 +165,35 @@ function BucketCourses() {
         <div className="flex justify-center gap-6 mb-8">
 
           {/* STUDENT */}
-          <div className="bg-lime-200 shadow rounded p-4 w-80">
-            <p><b>University ID:</b> {student.id}</p>
-            <p><b>Name:</b> {student.name}</p>
+          <div className="bg-lime-100 border border-gray-200 shadow-md rounded-xl p-5 w-80">
+
+            <p className="text-lg">
+              <span className="font-bold">University ID:</span> {student.id}
+            </p>
+
+            <p className="text-lg">
+              <span className="font-bold">Name:</span> {student.name}
+            </p>
+
+            {/* Counsellor Details */}
+            {counsellor ? (
+              <div className="mt-3 border-t pt-3 space-y-1">
+
+                <p className="text-lg">
+                  <span className="font-bold">Counsellor:</span> {counsellor.counsellorName}
+                </p>
+
+                <p className="text-lg">
+                  <span className="font-bold">Emp ID:</span> {counsellor.counsellorEmpId}
+                </p>
+
+              </div>
+            ) : (
+              <p className="text-sm text-red-500 mt-2">
+                Counsellor Not Assigned
+              </p>
+            )}
+
           </div>
 
           {/* SUMMARY BOX */}
