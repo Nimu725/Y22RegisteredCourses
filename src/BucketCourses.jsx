@@ -129,7 +129,7 @@ function BucketCourses() {
           Y22 Batch Student Registered Courses
         </h1>
         <p className="text-gray-600">
-          Up to IV Year – II Semester
+          Up to IV Year – II Semester (2025-26)
         </p>
       </div>
 
